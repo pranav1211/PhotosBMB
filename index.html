@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MPMGLTV79J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MPMGLTV79J');
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Photography by Pranav Veeraghanta — series of curated photo collections on Beyond Me Btw.">
+
+    <title>Photos | BeyondMeBtw</title>
+
+    <link rel="icon" type="image/x-icon" href="https://beyondmebtw.com/assets/images/favicon.ico">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Delius&family=Kavoon&family=Kreon:wght@300&family=Mogra&family=Permanent+Marker&display=swap');
+    </style>
+
+    <link rel="stylesheet" href="https://beyondmebtw.com/css/base.css">
+    <link rel="stylesheet" href="https://beyondmebtw.com/photos/photos.css">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Photos | BeyondMeBtw">
+    <meta property="og:description" content="Photography series by Pranav Veeraghanta.">
+    <meta property="og:url" content="https://beyondmebtw.com/photos/">
+    <meta property="og:type" content="website">
+</head>
+
+<body>
+
+    <!-- Wordmark header (mirrors the minis title treatment) -->
+    <div class="header-container">
+        <h1 class="page-title">
+            <a href="https://photos.beyondmebtw.com" class="photos">PHOTOS</a>
+            <span class="by">by</span>
+            <span class="brand"><a href="https://beyondmebtw.com">Beyond Me Btw</a></span>
+        </h1>
+    </div>
+
+    <main class="photos-main">
+
+        <!-- ═══ BENTO VIEW (series list) ═══ -->
+        <section id="bento-view" class="bento-view">
+            <div id="bento-grid" class="bento-grid">
+                <p class="empty-msg" id="bento-empty">Loading series...</p>
+            </div>
+        </section>
+
+        <!-- ═══ SERIES VIEW (images in one series) ═══ -->
+        <section id="series-view" class="series-view" hidden>
+            <button class="back-btn" id="back-btn" type="button">&larr; Back to all series</button>
+
+            <header class="series-header">
+                <h1 id="series-title"></h1>
+                <span id="series-count" class="series-count"></span>
+                <p id="series-description"></p>
+                <a id="series-raw-link" class="series-raw-link" target="_blank" rel="noopener" hidden></a>
+            </header>
+
+            <div id="series-image-grid" class="series-image-grid"></div>
+        </section>
+
+    </main>
+
+    <div id="footer">
+        <div>
+            © 2022-Present. Beyond Me Btw created by <a
+                href="https://beyondmebtw.com/about"
+                style="color: black; text-decoration: none; font-weight: bold;"
+                target="_blank">Pranav Veeraghanta.</a>
+        </div>
+    </div>
+
+    <!-- ═══ LIGHTBOX ═══ -->
+    <div id="lightbox" class="lightbox" hidden>
+        <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev" type="button" aria-label="Previous">&#8249;</button>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next" type="button" aria-label="Next">&#8250;</button>
+        <div class="lightbox-content">
+            <div class="lightbox-image-wrap">
+                <img id="lightbox-img" src="" alt="">
+            </div>
+            <aside class="lightbox-desc" id="lightbox-desc"></aside>
+        </div>
+    </div>
+
+    <script src="https://beyondmebtw.com/photos/photos.js" defer></script>
+    <script src="https://beyondmebtw.com/analytics.js" defer></script>
+</body>
+
+</html>

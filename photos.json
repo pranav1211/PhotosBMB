@@ -1,0 +1,40 @@
+{
+  "series": [
+    {
+      "id": "blackkite",
+      "title": "The Black Kite",
+      "description": "",
+      "thumbnail": "https://content.beyondmebtw.com/assets/photos/bks/thumb.webp",
+      "rawLink": "",
+      "rawLinkLabel": "",
+      "grid": {
+        "colSpan": 1,
+        "rowSpan": 3
+      },
+      "order": 1,
+      "images": [
+        {
+          "id": "blackkite_1",
+          "url": "https://content.beyondmebtw.com/assets/photos/bks/k1.png",
+          "description": "",
+          "alt": "",
+          "orientation": "portrait"
+        },
+        {
+          "id": "blackkite_2",
+          "url": "https://content.beyondmebtw.com/assets/photos/bks/k2.png",
+          "description": "",
+          "alt": "",
+          "orientation": "portrait"
+        },
+        {
+          "id": "blackkite_3",
+          "url": "https://content.beyondmebtw.com/assets/photos/bks/k3.png",
+          "description": "",
+          "alt": "",
+          "orientation": "portrait"
+        }
+      ]
+    }
+  ]
+}
