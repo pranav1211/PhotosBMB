@@ -7,6 +7,7 @@
 
     const PHOTOS_JSON_URL = '/photos.json';
     const FALLBACK_THUMB = 'https://beyondmebtw.com/assets/images/favicon.ico';
+    const TRANSPARENT_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
     const state = {
         data: null,                      // { series: [...] }
@@ -31,7 +32,39 @@
         return Math.max(1, Math.min(4, v));
     }
 
+    function defaultImageColSpan(orientation) {
+        return orientation === 'landscape' ? 2 : 1;
+    }
+
+    function defaultImageRowSpan(orientation) {
+        return orientation === 'portrait' ? 2 : 1;
+    }
+
     function $(id) { return document.getElementById(id); }
+
+    function scheduleImageSources(root) {
+        const imgs = Array.from(root.querySelectorAll('img[data-src]'));
+        if (imgs.length === 0) return;
+        let index = 0;
+
+        const loadNext = () => {
+            const start = performance.now();
+            while (index < imgs.length && performance.now() - start < 8) {
+                const img = imgs[index++];
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+            }
+            if (index < imgs.length) {
+                setTimeout(loadNext, 45);
+            }
+        };
+
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadNext, { timeout: 250 });
+        } else {
+            setTimeout(loadNext, 0);
+        }
+    }
 
     // ── Data ───────────────────────────────────────────────────────────────
     async function loadData() {
@@ -48,6 +81,15 @@
             const ob = Number.isFinite(b.order) ? b.order : 999;
             if (oa !== ob) return oa - ob;
             return String(a.title || '').localeCompare(String(b.title || ''));
+        });
+        data.series.forEach(series => {
+            if (!Array.isArray(series.images)) return;
+            series.images.sort((a, b) => {
+                const oa = Number.isFinite(a.order) ? a.order : 999;
+                const ob = Number.isFinite(b.order) ? b.order : 999;
+                if (oa !== ob) return oa - ob;
+                return String(a.id || '').localeCompare(String(b.id || ''));
+            });
         });
         return data;
     }
@@ -79,7 +121,7 @@
                         style="grid-column: span ${colSpan}; grid-row: span ${rowSpan};"
                         aria-label="Open series ${esc(series.title)}">
                     <div class="bento-card-bg" style="background-image: url('${esc(thumb)}');"></div>
-                    <img class="bento-card-img" src="${esc(thumb)}" alt="${esc(series.title)}" loading="lazy"
+                    <img class="bento-card-img" src="${TRANSPARENT_PIXEL}" data-src="${esc(thumb)}" alt="${esc(series.title)}" loading="lazy" decoding="async"
                          onerror="this.src='${FALLBACK_THUMB}'">
                     <div class="bento-card-overlay"></div>
                     <div class="bento-card-content">
@@ -92,6 +134,7 @@
         }).join('');
 
         grid.innerHTML = html;
+        scheduleImageSources(grid);
 
         grid.querySelectorAll('.bento-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -155,15 +198,20 @@
             imageGrid.innerHTML = images.map((img, i) => {
                 const o = (img.orientation || 'landscape').toLowerCase();
                 const orientation = (o === 'portrait' || o === 'square') ? o : 'landscape';
+                const colSpan = clampSpan(img.grid && img.grid.colSpan || defaultImageColSpan(orientation));
+                const rowSpan = clampSpan(img.grid && img.grid.rowSpan || defaultImageRowSpan(orientation));
                 return `
                 <div class="series-image-card" data-index="${i}" data-orientation="${orientation}"
+                     data-col-span="${colSpan}" data-row-span="${rowSpan}"
+                     style="grid-column: span ${colSpan}; grid-row: span ${rowSpan};"
                      tabindex="0" role="button" aria-label="Expand image ${i + 1}">
-                    <img src="${esc(img.url)}" alt="${esc(img.alt || img.description || series.title)}"
-                         loading="lazy" onerror="this.src='${FALLBACK_THUMB}'">
+                    <img src="${TRANSPARENT_PIXEL}" data-src="${esc(img.url)}" alt="${esc(img.alt || img.description || series.title)}"
+                         loading="lazy" decoding="async" onerror="this.src='${FALLBACK_THUMB}'">
                     <div class="series-image-hover">click to expand</div>
                 </div>
             `;
             }).join('');
+            scheduleImageSources(imageGrid);
 
             imageGrid.querySelectorAll('.series-image-card').forEach(card => {
                 const idx = parseInt(card.dataset.index, 10);
