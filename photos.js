@@ -5,7 +5,8 @@
 (function () {
     'use strict';
 
-    const PHOTOS_JSON_URL = '/photos.json';
+    // Canonical in bmb-data, served by Manage (catalog key: photos).
+    const PHOTOS_JSON_URL = 'https://manage.beyondmebtw.com/api/v1/data/resources/photos';
     const FALLBACK_THUMB = 'https://beyondmebtw.com/assets/images/favicon.ico';
     const TRANSPARENT_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
@@ -71,7 +72,7 @@
         const url = `${PHOTOS_JSON_URL}?t=${Date.now()}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Failed to load photos.json (${res.status})`);
-        const data = await res.json();
+        const data = (await res.json()).data;
         if (!data || !Array.isArray(data.series)) {
             return { series: [] };
         }
