@@ -1,0 +1,11 @@
+{
+  "branch": "main",
+  "type": "static",
+  "isPrimaryDomain": false,
+  "pm2Config": null,
+  "application": "photos",
+  "repository": "git@github.com:pranav1211/PhotosBMB.git",
+  "deploymentPath": "/projects/photos",
+  "domain": "photos.beyondmebtw.com",
+  "nginxConfig": null
+}
